@@ -8,8 +8,21 @@ using System.Windows.Forms;
 
 namespace Brower_Asg03_VideoPoker
 {
+    /// <summary>
+    /// Static class to update the PictureBoxes based on the hand and integer provided
+    /// </summary>
     internal static class HandDisplay
     {
+        /// <summary>
+        /// Updates the card playfield based on the state of the game.
+        /// Cards that need to be "elevated" (shown as selected to toss) are based on bitwise logic - by
+        /// using the lowest 5 bits of bitwiseCardsToToss as flags.
+        /// Bits are right shifted to process each card slot and update the display accordingly
+        /// </summary>
+        /// <param name="pictureBoxesCardsHold"></param>
+        /// <param name="pictureBoxesCardsToss"></param>
+        /// <param name="hand"></param>
+        /// <param name="bitwiseCardsToToss"></param>
         public static void updateCardPlayfield(List<PictureBox> pictureBoxesCardsHold, List<PictureBox> pictureBoxesCardsToss, Hand hand, int bitwiseCardsToToss) 
         {
             int index = 0;

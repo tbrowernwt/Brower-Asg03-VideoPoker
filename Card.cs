@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Brower_Asg03_VideoPoker
 {
+    /// <summary>
+    /// Card class represents a single card in a standard 52 card deck.
+    /// Card is initialized to provide its "identity" (card, rank) and
+    /// can be accessed through the instance's getters
+    /// </summary>
     public class Card
     {
         public enum CardSuit
@@ -35,6 +40,12 @@ namespace Brower_Asg03_VideoPoker
         private CardSuit suit;
         private CardRank rank;
         private Image cardFront;
+        /// <summary>
+        /// Create the instance of the card
+        /// </summary>
+        /// <param name="suit">The suit of the card</param>
+        /// <param name="rank">The rank of the card</param>
+        /// <param name="cardFront">The image of the card's front</param>
         public Card(CardSuit suit, int rank, Image cardFront)
         {
             this.suit = suit;

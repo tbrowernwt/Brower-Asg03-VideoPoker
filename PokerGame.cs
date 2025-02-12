@@ -21,51 +21,62 @@ namespace Brower_Asg03_VideoPoker
                 hand.addCardToHand(card);
             }
         }
+        /// <summary>
+        /// Provides access to the PokerGame's instance of the Hand class and it's methods
+        /// </summary>
+        /// <returns>The instance of the Hand class</returns>
         public Hand getHand()
         {
             return hand;
         }
+
         public bool getIfGameInPlay()
         {
             return isGameInPlay;
         }
+        /// <summary>
+        /// Disposes of and replaces cards flagged by the player to toss.
+        /// </summary>
+        /// <param name="bitwiseToss">
+        /// The integer interpretation of the set and clear bits representing 
+        /// cards that need to be tossed (bit set) and kept (bit clear)
+        /// </param>
         public void processAndReplaceDiscards(int bitwiseToss)
         {
             /*
              * 
              * How this function works:
-             * The cards to toss is received in an int with each of the five least 
-             * significant bits of the int representing a bool
-             * 0 = keep the card. 1 = toss the card.
-             * Evaluate the least significant bit (1's place) using AND. If bit is 
-             * set, remove card at index (i)
-             * Decrement i after evaluation then shift bits right and repeat.
-             * Bits are ordered based on their position on the playfield
+             * 0b0 = keep the card. 0b1 = toss the card.
+             * Bits of CardsToToss are ordered based on their position on the playfield
              * Example: Far left card (PictureBoxCard1) is 0b10000
              * Far right card (PictureBoxCard5) is 0b00001 etc.
+             * Evaluate the least significant bit (1's place) using the AND operation. If bit is 
+             * set, remove card at index (i)
+             * Decrement i after evaluation then shift bits right.
+             * If the last set bit is shifted out of CardsToToss, the loop breaks. Otherwise repeat.
              *
-             * Loop will break after all set set bits have been shifted out of the byte - this
-             * means all cards set to discard have been tossed.
+             * Loop will break after all set set bits have been shifted out (CardsToToss = 0) - this
+             * means all cards set to discard have been tossed
              * 
              */
-            int CountOfTossed = 0;
-            int CardsToToss = 0b11111 & bitwiseToss; // In case someone tries to get crafty...
+            int countOfTossed = 0;
+            int cardsToToss = 0b11111 & bitwiseToss;
             int i = 4;
-            while(CardsToToss > 0)
+            while(cardsToToss > 0)
             {
-                if ((CardsToToss & 0b00001) == 1)
+                if ((cardsToToss & 0b00001) == 1)
                 {
                     hand.tossCardAtIndex(i);
-                    CountOfTossed++;
+                    countOfTossed++;
                     i--;
                 }
                 else
                 {
                     i--;
                 }
-                CardsToToss = CardsToToss >> 1;
+                cardsToToss = cardsToToss >> 1;
             }
-            foreach(Card c in cardDeck.DealCards(CountOfTossed))
+            foreach(Card c in cardDeck.DealCards(countOfTossed))
             {
                 hand.addCardToHand(c);
             }

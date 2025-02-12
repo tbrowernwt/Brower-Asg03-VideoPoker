@@ -9,47 +9,52 @@ namespace Brower_Asg03_VideoPoker
 {
     public class Deck
     {
-        private List<Card> CardsInDeck = new List<Card>();
-        private Random Rng = new Random();
+        private List<Card> cardsInDeck = new List<Card>();
+        private Random rng = new Random();
+        /// <summary>
+        /// Construct a deck containing a single instance of each
+        /// of the 52 cards. 
+        /// </summary>
+        /// <param name="cardFronts">ImageList of image assets for card front.</param>
         public Deck(ImageList cardFronts)
         {
-            LoadDeck(cardFronts);
+            loadDeck(cardFronts);
         }
         int imageIndex = 0;
         Card card;
-        private void LoadDeck(ImageList cardFronts)
+        private void loadDeck(ImageList cardFronts)
         {
-            CardsInDeck.Clear();
+            cardsInDeck.Clear();
             for (int i = 1; i <= 13; i++)
             {
                 card = new Card(Card.CardSuit.Clubs, i, cardFronts.Images[imageIndex]);
-                CardsInDeck.Add(card);
+                cardsInDeck.Add(card);
                 imageIndex++;
 
                 card = new Card(Card.CardSuit.Diamonds, i, cardFronts.Images[imageIndex]);
-                CardsInDeck.Add(card);
+                cardsInDeck.Add(card);
                 imageIndex++;
 
                 card = new Card(Card.CardSuit.Hearts, i, cardFronts.Images[imageIndex]);
-                CardsInDeck.Add(card);
+                cardsInDeck.Add(card);
                 imageIndex++;
 
                 card = new Card(Card.CardSuit.Spades, i, cardFronts.Images[imageIndex]);
-                CardsInDeck.Add(card);
+                cardsInDeck.Add(card);
                 imageIndex++;
             }
         }
         public List<Card> DealCards(int numberOfCards)
         {
-            List<Card> Deal = new List<Card>();
+            List<Card> deal = new List<Card>();
             for(int i = 0; i < numberOfCards; i++)
             {
-                int rand = Rng.Next(CardsInDeck.Count);
-                Deal.Add(CardsInDeck[rand]);
-                CardsInDeck.RemoveAt(rand);
+                int rand = rng.Next(cardsInDeck.Count);
+                deal.Add(cardsInDeck[rand]);
+                cardsInDeck.RemoveAt(rand);
             }
 
-            return Deal;
+            return deal;
         }
         
     }
