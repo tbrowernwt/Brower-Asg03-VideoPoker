@@ -43,27 +43,27 @@ namespace Brower_Asg03_VideoPoker
         public void flipBitOne()
         {
             discardData = discardData ^ 0b00001;
-            updatePlayfield();
+            updateForm();
         }
         public void flipBitTwo()
         {
             discardData = discardData ^ 0b00010;
-            updatePlayfield();
+            updateForm();
         }
         public void flipBitThree()
         {
             discardData = discardData ^ 0b00100;
-            updatePlayfield();
+            updateForm();
         }
         public void flipBitFour()
         {
             discardData = discardData ^ 0b01000;
-            updatePlayfield();
+            updateForm();
         }
         public void flipBitFive()
         {
             discardData = discardData ^ 0b10000;
-            updatePlayfield();
+            updateForm();
         }
 
         private void buttonMultiFunction_Click(object sender, EventArgs e)
@@ -102,9 +102,9 @@ namespace Brower_Asg03_VideoPoker
                 numericUpDownWager.Enabled = false;
                 game = new PokerGame(imageListCardImages);
             } 
-            updatePlayfield();
+            updateForm();
         }
-        private void updatePlayfield()
+        private void updateForm()
         {
             /*
              * 
@@ -118,6 +118,7 @@ namespace Brower_Asg03_VideoPoker
              * 
              */
             int index = 0;
+            HandDisplay.updateCardPlayfield(holdPictureBoxes, discardPictureBoxes, game.getHand(), discardData);
             if (game.getIfGameInPlay())
             {
                 labelFinalGameStatus.Text = "Select the cards you wish to keep.";
@@ -134,27 +135,11 @@ namespace Brower_Asg03_VideoPoker
             {
                 buttonMultiFunction.Text = "Place bet";
             }
-            for(int i = 4; i >= 0; i--)
-            {
-                if(((discardData >> i) & 0b00001) == 0b00001)
-                {
-                    discardPictureBoxes[index].Image = game.getHand()[index].getCardFront();
-                    discardPictureBoxes[index].BringToFront();
-                    holdPictureBoxes[index].Image = null;
-                }
-                else
-                {
-                    holdPictureBoxes[index].Image = game.getHand()[index].getCardFront();
-                    holdPictureBoxes[index].BringToFront();
-                    discardPictureBoxes[index].Image = null;
-                }
-                index++;
-            }
             labelCreditsAmount.Text = credits.ToString();
         }
         private void processAndUpdateGameResult()
         {
-            List<String> rankAndSuitStrings = game.getRankSuitStringList();
+            List<String> rankAndSuitStrings = game.getHand().getRankSuitStringList();
             PokerScore pokerScore = new PokerScore(rankAndSuitStrings[0], rankAndSuitStrings[1], rankAndSuitStrings[2], rankAndSuitStrings[3], rankAndSuitStrings[4]);
             if (pokerScore.getPayoffRatio() > 0)
             {

@@ -10,37 +10,25 @@ namespace Brower_Asg03_VideoPoker
     public class PokerGame
     {
         private Deck cardDeck;
-        private List<Card> cardsInHand;
+        private Hand hand;
         private bool isGameInPlay = true;
         public PokerGame(ImageList CardFronts) 
         {
-            cardsInHand = new List<Card>();
+            hand = new Hand();
             cardDeck = new Deck(CardFronts);
             foreach(Card card in cardDeck.DealCards(5))
             {
-                cardsInHand.Add(card);
+                hand.addCardToHand(card);
             }
         }
-        public List<Card> getHand()
+        public Hand getHand()
         {
-            return cardsInHand;
-        }
-        public List<String> getRankSuitStringList()
-        {
-            List<String> rankSuitStringList = new List<String>();
-            foreach (Card card in cardsInHand)
-            {
-                String s = ((int)card.getRank()).ToString() + (char)card.getSuit();
-                rankSuitStringList.Add(s);
-            }
-            return rankSuitStringList;
-
+            return hand;
         }
         public bool getIfGameInPlay()
         {
             return isGameInPlay;
         }
-
         public void processAndReplaceDiscards(int bitwiseToss)
         {
             /*
@@ -67,7 +55,7 @@ namespace Brower_Asg03_VideoPoker
             {
                 if ((CardsToToss & 0b00001) == 1)
                 {
-                    cardsInHand.RemoveAt(i);
+                    hand.tossCardAtIndex(i);
                     CountOfTossed++;
                     i--;
                 }
@@ -79,7 +67,7 @@ namespace Brower_Asg03_VideoPoker
             }
             foreach(Card c in cardDeck.DealCards(CountOfTossed))
             {
-                cardsInHand.Add(c);
+                hand.addCardToHand(c);
             }
             isGameInPlay = false;
         }
